@@ -1,0 +1,72 @@
+<div id="ball" style="
+  z-index:5;
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  background:green"></div>
+
+<script>
+
+var velocityX = 3;
+var velocityY = 6;
+var positionX = 0;
+var positionY = 0;
+var ball = document.getElementById('ball');
+
+
+function update() {
+  i++
+  console.log("function running for the "+i+" time, x pos is "+ positionX)
+//left/right
+  if (goingright){
+    positionX += velocityX
+  ball.style.left = positionX + "px"
+  } else {
+    positionX -= velocityX
+    ball.style.left = positionX + "px"
+  }
+//up/down
+  if (goingdown){
+    positionY += velocityY
+  ball.style.top = positionY + "px"
+  } else {
+    positionY -= velocityY
+    ball.style.top = positionY + "px"
+  }
+  // set left/right ball direction for next itteration
+  if (positionX + parseInt(ball.style.width) >=window.innerWidth){ //gets current width of browser window (Works on chrome, might be different in different browsers)
+    goingright =false
+    let oldsize = parseInt(ball.style.width)
+    let newsize = Math.floor(Math.random()*200) + "px"
+    console.log(newsize)
+    ball.style.width = newsize
+    ball.style.height = newsize
+    positionX = positionX - Math.abs(oldsize-parseInt(newsize))
+  }
+  if (positionX <=0){
+    goingright =true
+    let newsize = Math.floor(Math.random()*200) + "px"
+    console.log(newsize)
+    ball.style.width = newsize
+    ball.style.height = newsize
+  }
+  // set left/right ball direction for next itteration
+  if (positionY + parseInt(ball.style.width) >=window.innerHeight){ //gets current width of browser window (Works on chrome, might be different in different browsers)
+    goingdown =false
+    ball.style.background = '#'+Math.floor(Math.random()*16777215).toString(16);
+  }
+  if (positionY <=0){
+    goingdown =true
+    ball.style.background = '#'+Math.floor(Math.random()*16777215).toString(16);
+  }
+}
+
+
+var i = 0
+var goingright = true
+var goingdown = true
+setInterval(update,10)
+</script>
